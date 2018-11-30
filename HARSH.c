@@ -20,7 +20,7 @@ int main (void)  {
   char filename [1000];
   FILE *fp;
   char yn = '1'; // Y/N
-  printf("SOURCE CODE? [Y/N]");
+  printf("EXECUTE FROM FILE? [Y/N]");
   while (fileScan == -1) {
     scanf("%c", &yn);
     if (yn == 'n' || yn == 'N')  {
@@ -29,6 +29,7 @@ int main (void)  {
     }
     if (yn == 'y' || yn == 'Y')  {
       fileScan = 1;
+      printf("FILENAME: ");
       scanf("%s", filename);
       fp = fopen(filename, "r");
     }
