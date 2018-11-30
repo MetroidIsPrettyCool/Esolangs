@@ -20,7 +20,7 @@ int main (void)  {
   char filename [1000];
   FILE *fp;
   char yn = '1'; // Y/N
-  printf("EXECUTE FROM FILE? [Y/N]");
+  printf("EXECUTE FROM FILE? [Y/N]: ");
   while (fileScan == -1) {
     scanf("%c", &yn);
     if (yn == 'n' || yn == 'N')  {
@@ -51,16 +51,16 @@ int main (void)  {
     }
     for (i = 0; i != INPUTSIZE; i++)  {
       switch (inputString [i])  {
-      case '+':
+      case 'a':
 	acc++;
 	break;
-      case '/':
+      case 'h':
 	if (acc == 30)  {
 	  i++;
 	}
 	break;
-      case '?':
-	printf("EXECUTE \"%c\"? [Y/N]", inputString [i + 1]);
+      case 'q':
+	printf("EXECUTE \"%c\"? [Y/N]: ", inputString [i + 1]);
 	while (doexit != 1) {
 	  scanf("%c", &yn);
 	  if (yn == 'n' || yn == 'N')  {
@@ -74,17 +74,17 @@ int main (void)  {
 	doexit = 0;
 	yn = '1';
 	break;
-      case '#':
+      case 'c':
 	printf("%c", acc);
 	break;
-      case '0':
+      case 'o':
 	acc = 0;
 	break;
-      case '>':
+      case 'u':
 	stackSize++;
 	stack [stackSize] = acc;
 	break;
-      case '<':
+      case 'p':
 	acc = stack [stackSize];
 	stackSize--;
 	break;
