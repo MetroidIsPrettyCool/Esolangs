@@ -23,27 +23,37 @@ int main (int argc, char *argv[])  {
   char yn = '1'; // Y/N
   char fileUse [1000];
   if (argc == 1 || argc > 3)  {
-    printf("First argument either -n or -N, or -y or -Y for if it should load from file, and if yes, the second argument should be the filename. Typing \".hrs\" is uneccesary, and is added automatically.\n");
+    printf("First argument either -t or -T, or -f or -F. -T or -t will launch terminal mode, no additional arguments needed.\n-F or -f will load from a file, type space and then the filename afterwards. \nTyping the file extension (.hrs) will cause the interpreter to fail, so please don't. It adds that for you.\n");
     return -1;
   }
-  printf("3\n");
   while (fileScan == -1) {
     strcpy(fileUse, argv[1]);
-    printf("h %s\n", fileUse);
-    if (strcmp(fileUse,"-n") == 0 || strcmp(fileUse,"-N") == 0)  {
+    if (strcmp(fileUse,"-t") == 0 || strcmp(fileUse,"-T") == 0)  {
+      if (argc == 3)  {
+	printf("First argument either -t or -T, or -f or -F. -T or -t will launch terminal mode, no additional arguments needed.\n-F or -f will load from a file, type space and then the filename afterwards. \nTyping the file extension (.hrs) will cause the interpreter to fail, so please don't. It adds that for you.\n");
+	return -1;
+      }
       i++;
       fileScan = 0;
       break;
     }
-    else if (strcmp(fileUse,"-y") == 0 || strcmp(fileUse,"-Y") == 0)  {
+    else if (strcmp(fileUse,"-f") == 0 || strcmp(fileUse,"-F") == 0)  {
+      if (argc == 2)  {
+	printf("First argument either -t or -T, or -f or -F. -T or -t will launch terminal mode, no additional arguments needed.\n-F or -f will load from a file, type space and then the filename afterwards. \nTyping the file extension (.hrs) will cause the interpreter to fail, so please don't. It adds that for you.\n");
+	return -1;
+      }
       fileScan = 1;
       strcpy(filename, argv[2]);
       strcat(filename, ".hrs");
       fp = fopen(filename, "r");
+      if (!fp)  {
+	printf("ILLEGAL FILENAME, PLEASE TRY AGAIN.\n");
+	return -1;
+      }
       break;
     }
     else {
-      printf("First argument either -n or -N, or -y or -Y for if it should load from file, and if yes, the second argument should be the filename. Typing \".hrs\" is uneccesary, and is added automatically.\n");
+      printf("First argument either -t or -T, or -f or -F. -T or -t will launch terminal mode, no additional arguments needed.\n-F or -f will load from a file, type space and then the filename afterwards. \nTyping the file extension (.hrs) will cause the interpreter to fail, so please don't. It adds that for you.\n");
     return -1;
     }
   }
@@ -57,7 +67,10 @@ int main (int argc, char *argv[])  {
     yn = '1';
     if (fileScan == 0)  {
       printf(">>> ");
-      scanf("%s", inputString); // Will also support fscanf in version 2.0
+      scanf("%s", inputString);
+      if (strcmp(inputString, "exit") == 0)  {
+	return 0;
+      }
     }
     else  {
       fscanf(fp, "%s", inputString);
