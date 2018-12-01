@@ -146,10 +146,10 @@ int main (int argc, char *argv[])  {
 	break;
       case 'z':
 	switch (acc)  {
-	case 0:
+	case 1:
 	  acc++;
 	  break;
-	case 1:
+	case 7:
 	  if (acc == 30)  {
 	    i++;
 	  }
@@ -214,6 +214,7 @@ int main (int argc, char *argv[])  {
 	  printf("%i", acc);
 	  break;
 	}
+	break;
       default:
 	printf("ERR, ILLEGAL CHARACTER: %c\n", inputString [i]);
 	if (fileScan == 1)  {
