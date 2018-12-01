@@ -212,8 +212,8 @@ int main (int argc, char *argv[])  {
 	  break;
 	case 11:
 	  printf("%i", acc);
-	default:
-	break;
+	  break;
+	}
       default:
 	printf("ERR, ILLEGAL CHARACTER: %c\n", inputString [i]);
 	if (fileScan == 1)  {
