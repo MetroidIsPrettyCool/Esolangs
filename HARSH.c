@@ -154,7 +154,7 @@ int main (int argc, char *argv[])  {
 	    i++;
 	  }
 	  break;
-	case 2:
+	case 8:
 	  printf("EXECUTE \"%c\"? [Y/N]: ", inputString [i + 1]);
 	  while (doexit != 1) {
 	    scanf("%c", &yn);
@@ -169,21 +169,21 @@ int main (int argc, char *argv[])  {
 	  doexit = 0;
 	  yn = '1';
 	  break;
-	case 3:
+	case 10:
 	  printf("%c", acc);
 	  break;
-	case 4:
+	case 3:
 	  acc = 0;
 	  break;
-	case 5:
+	case 4:
 	  stackSize++;
 	  stack [stackSize] = acc;
 	  break;
-	case 6:
+	case 5:
 	  acc = stack [stackSize];
 	  stackSize--;
 	  break;
-	case 7:
+	case 6:
 	  tmp = stack [stackSize];
 	  for (c = 0; c != STACKSIZE; c++)  {
 	    tmpStack [c + 1] = stack [c];
@@ -193,7 +193,7 @@ int main (int argc, char *argv[])  {
 	  }
 	  stack [0] = tmp;
 	  break;
-	case 8:
+	case 12:
 	  printf("\n");
 	  if (fileScan == 1)  {
 	    fclose(fp);
@@ -207,30 +207,13 @@ int main (int argc, char *argv[])  {
 	  }
 	  i -= tmpAcc + 1;
 	  break;
-	case 10:
+	case 2:
 	  acc *= 2;
 	  break;
 	case 11:
 	  printf("%i", acc);
 	default:
-	  printf("ERR, ILLEGAL CHARACTER: %c\n", inputString [i]);
-	  if (fileScan == 1)  {
-	    fclose(fp);
-	    return 0;
-	  }
-	  goto imsorry;
-	}
 	break;
-      case ' ':
-      case '\t':
-	break;
-      case '\0':
-	printf("ERR, MISSING E\n");
-	if (fileScan == 1)  {
-	  fclose(fp);
-	  return 0;
-	}
-	goto imsorry;
       default:
 	printf("ERR, ILLEGAL CHARACTER: %c\n", inputString [i]);
 	if (fileScan == 1)  {
