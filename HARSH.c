@@ -67,13 +67,13 @@ int main (int argc, char *argv[])  {
     yn = '1';
     if (fileScan == 0)  {
       printf(">>> ");
-      scanf("%s", inputString);
-      if (strcmp(inputString, "exit") == 0)  {
+      fgets(inputString, INPUTSIZE, stdin);
+      if (strcmp(inputString, "exit\n") == 0)  {
 	return 0;
       }
     }
     else  {
-      fscanf(fp, "%s", inputString);
+      fgets(inputString, INPUTSIZE, fp);
     }
     for (i = 0; i != INPUTSIZE; i++)  {
       switch (inputString [i])  {
@@ -143,6 +143,9 @@ int main (int argc, char *argv[])  {
 	break;
       case 'n':
 	printf("%i", acc);
+	break;
+      case ' ':
+      case '\t':
 	break;
       case 'z':
 	switch (acc)  {
