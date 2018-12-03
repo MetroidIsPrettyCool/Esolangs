@@ -133,10 +133,10 @@ int main (int argc, char *argv[])  {
 	goto imsorry;
       case 'b':
 	tmpAcc = acc;
-	while (tmpAcc > i)  {
-	  tmpAcc -= i;
-	}
 	i -= tmpAcc + 1;
+	if (i < 0)  {
+	  i = 0;
+	}
 	break;
       case 'd':
 	acc *= 2;
