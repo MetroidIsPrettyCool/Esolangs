@@ -134,8 +134,8 @@ int main (int argc, char *argv[])  {
       case 'b':
 	tmpAcc = acc;
 	i -= tmpAcc + 1;
-	if (i < 0)  {
-	  i = 0;
+	if (i <= -1)  {
+	  i = -1;
 	}
 	break;
       case 'd':
