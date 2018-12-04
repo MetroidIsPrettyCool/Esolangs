@@ -8,8 +8,8 @@
 
 int main (int argc, char *argv[])  {
   char inputString [INPUTSIZE]; // This string will hold our program
-  int stack [STACKSIZE] = {0};
-  int tmpStack [STACKSIZE] = {0};
+  int *stack;
+  int *tmpStack;
   int stackSize;
   int i; // Counter
   int c; // Counter for 'r'
@@ -61,7 +61,11 @@ int main (int argc, char *argv[])  {
   doexit = 0;
   for (;;)  {
   imsorry:
+    free (stack);
+    free (tmpStack);
     stackSize = -1;
+    stack = malloc (sizeof(int) * (stackSize + 10)); // Make it slightly bigger than neccesary, just in case.
+    tmpStack = malloc (sizeof(int) * (stackSize + 10));
     acc = 0;
     tmpAcc = 0;
     yn = '1';
@@ -108,21 +112,25 @@ int main (int argc, char *argv[])  {
 	break;
       case 'u':
 	stackSize++;
-	stack [stackSize] = acc;
+	stack = realloc(stack, sizeof(int) * (stackSize + 10));
+	tmpStack = realloc(tmpStack, sizeof(int) * (stackSize + 10));
+	*(stack + stackSize) = acc;
 	break;
       case 'p':
-	acc = stack [stackSize];
+	acc = *(stack + stackSize);
+	stack = realloc(stack, sizeof(int) * (stackSize + 10));
+	tmpStack = realloc(tmpStack, sizeof(int) * (stackSize + 10));
 	stackSize--;
 	break;
       case 'r':
-	tmp = stack [stackSize];
-	for (c = 0; c != STACKSIZE; c++)  {
-	  tmpStack [c + 1] = stack [c];
+	tmp = *(stack + stackSize);
+	for (c = 0; c != stackSize + 10; c++)  {
+	  *(tmpStack + c + 1) = stack [c];
 	}
-	for (c = 0; c != STACKSIZE; c++)  {
-	  stack [c] = tmpStack [c];
+	for (c = 0; c != stackSize + 10; c++)  {
+	  *(stack + c) = *(tmpStack + c);
 	}
-	stack [0] = tmp;
+	*stack = tmp;
 	break;
       case 'e':
 	printf("\n");
@@ -180,21 +188,25 @@ int main (int argc, char *argv[])  {
 	  break;
 	case 4:
 	  stackSize++;
-	  stack [stackSize] = acc;
+	  stack = realloc(stack, sizeof(int) * (stackSize + 10));
+	  tmpStack = realloc(tmpStack, sizeof(int) * (stackSize + 10));
+	  *(stack + stackSize) = acc;
 	  break;
 	case 5:
-	  acc = stack [stackSize];
+	  acc = *(stack + stackSize);
+	  stack = realloc(stack, sizeof(int) * (stackSize + 10));
+	  tmpStack = realloc(tmpStack, sizeof(int) * (stackSize + 10));
 	  stackSize--;
 	  break;
 	case 6:
-	  tmp = stack [stackSize];
-	  for (c = 0; c != STACKSIZE; c++)  {
-	    tmpStack [c + 1] = stack [c];
+	  tmp = *(stack + stackSize);
+	  for (c = 0; c != stackSize + 10; c++)  {
+	    *(tmpStack + c + 1) = stack [c];
 	  }
-	  for (c = 0; c != STACKSIZE; c++)  {
-	    stack [c] = tmpStack [c];
+	  for (c = 0; c != stackSize + 10; c++)  {
+	    *(stack + c) = *(tmpStack + c);
 	  }
-	  stack [0] = tmp;
+	  *stack = tmp;
 	  break;
 	case 12:
 	  printf("\n");
@@ -205,10 +217,10 @@ int main (int argc, char *argv[])  {
 	  goto imsorry;
 	case 9:
 	  tmpAcc = acc;
-	  while (tmpAcc - 1 > i)  {
-	    tmpAcc -= i;
-	  }
 	  i -= tmpAcc + 1;
+	  if (i <= -1)  {
+	    i = -1;
+	  }
 	  break;
 	case 2:
 	  acc *= 2;
