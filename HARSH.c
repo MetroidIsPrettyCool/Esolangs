@@ -13,6 +13,7 @@ int main (int argc, char *argv[])  {
   int stackSize;
   int i; // Counter
   int c; // Counter for 'r'
+  int d;
   int tmp; // Stores values for r
   int acc; // Accumulator
   int doexit = 0;
@@ -138,6 +139,9 @@ int main (int argc, char *argv[])  {
 	  fclose(fp);
 	  return 0;
 	}
+	else  {
+	  while ((d = getchar()) != '\n' && d != EOF) { }
+	}
 	goto imsorry;
       case 'b':
 	tmpAcc = acc;
@@ -154,6 +158,7 @@ int main (int argc, char *argv[])  {
 	break;
       case ' ':
       case '\t':
+      case '\n':
 	break;
       case 'z':
 	switch (acc)  {
@@ -213,6 +218,9 @@ int main (int argc, char *argv[])  {
 	  if (fileScan == 1)  {
 	    fclose(fp);
 	    return 0;
+	  }
+	  else  {
+	    while ((d = getchar()) != '\n' && d != EOF) { }
 	  }
 	  goto imsorry;
 	case 9:
