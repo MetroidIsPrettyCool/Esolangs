@@ -41,11 +41,12 @@
   *__ - Multiply the static register with a variable                   7
   /__ - Divide a variable by the static register                       8
   %__ - Modulus, you get the point                                     9
+  >__ - Take the stat reg and variable and store in the variable      16
 
   Memory
 
   #__ - Swap static reigster with the variable                        10
-  >__ - Copy static register into variable                            11
+  ~__ - Copy static register into variable                            11
 
   ? - Read a character from the user and place it somewhere in memory 12
   '__ - Output the variable as a number                               13
@@ -146,6 +147,10 @@ void mod     (struct Op* operations, int opSize, byte* memory, byte* statReg, in
   memory [arg] %= *statReg;
 }
 
+void greater (struct Op* operations, int opSize, byte* memory, byte* statReg, int* opPtr, int* countdown, byte arg) {
+  memory [arg] = (memory [arg] > *statReg) ? memory [arg] : *statReg;
+}
+
 void swap    (struct Op* operations, int opSize, byte* memory, byte* statReg, int* opPtr, int* countdown, byte arg) {
   byte tmp = memory [arg];
   memory [arg] = *statReg;
@@ -170,10 +175,6 @@ void charout (struct Op* operations, int opSize, byte* memory, byte* statReg, in
 
 void shuffle (struct Op* operations, int opSize, byte* memory, byte* statReg, int* opPtr, int* countdown, byte arg) {
   *countdown = COUNTFROM;
-  // Randomize a small part of memory 
-  memory [rand() % 256] = rand() % 256;
-  memory [rand() % 256] = rand() % 256;
-  memory [rand() % 256] = rand() % 256;
 
   // Shuffle the array
   byte tmp;
@@ -229,11 +230,12 @@ int getIdFromC (char in) {
   if (in == '/')  return  8;
   if (in == '%')  return  9;
   if (in == '#')  return 10;
-  if (in == '>')  return 11;
+  if (in == '~')  return 11;
   if (in == '?')  return 12;
   if (in == '\'') return 13;
   if (in == '"')  return 14;
   if (in == '$')  return 15;
+  if (in == '>')  return 16;
   return -1;
 }
 
@@ -326,9 +328,9 @@ int main (int argc, char* argv []) {
 
   // Set up function lookup table
   //                   operations   ops  mem    strg  oPtr  cdwn  arg
-  void (*funcLuT [16]) (struct Op*, int, byte*, byte*, int*, int*, byte) = {
+  void (*funcLuT []) (struct Op*, int, byte*, byte*, int*, int*, byte) = {
     nop, t1loop, t2strt, t2loop, exitprg, add, sub, mul, dvd,
-    mod, swap, copy, in, numout, charout, shuffle};
+    mod, swap, copy, in, numout, charout, shuffle, greater};
   
   // Main loop
   while (opPtr != -1) {
